@@ -3,15 +3,15 @@
   <head>
    <title></title>
 
-    <script src="js/jquery-2.1.4.min.js"></script>
-    <script src="js/handlebars-v3.0.3.js"></script>
-
-    <script src="js/bootstrap.min.js"></script>
-
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
   </head>
   <body>
@@ -32,7 +32,7 @@
       <!-- start un-collapsed navbar-->
       <div class="collapse navbar-collapse" id="main_navbar">
         <ul class="nav navbar-nav">
-          <li ><a href="index.html">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="albums.html">Albums</a></li>
           <li class="active"><a href="photos.html">Photos</a></li>
         </ul>
@@ -46,84 +46,51 @@
 
       <!-- start breadcrumb -->
       <ol class="breadcrumb">
-        <li><a href="index.html">Photos</a></li>
-
+        <li><a href="photos.html">Photos</a></li>
       </ol>
       <!-- / breadcrumb -->
 
+      <div class="col-xs-12 col-md-3">
+      <a href="photo1.html "><img class="album_cover" src="/images/img_1.jpg" alt="graf" /></a>
+      </div>
+      
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_5.jpg" alt="graf" />
+      </div>
 
-       <!-- This will be filled by the Javascript below
-     because we will fill it later from the template -->
-    <div class="row">
-          <div id="content"></div>
-    </div> <!-- / row -->
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_3.jpg" alt="graf" />
+      </div>
 
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_6.jpg" alt="graf" />
+      </div>
 
-    <script id="image-template" type="text/x-handlebars-template">
-    <div>
-        {{#each apidata}}
-            
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_7.jpg" alt="graf" />
+      </div>
 
-                <div class="col-xs-12 col-md-3">
-                    <div class="thumbnail">
-                      <a href="{{src}}.html">
-                        <img class="crop-img" src="{{src}}" alt=""/>
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_9.jpg" alt="graf" />
+      </div>
 
-                        <div class="caption">
-                            <h3> {{title}} </h3>
-                            <p> {{author}} </p>
-                        </div>
-                      </a>
-                    </div>
-                </div>
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_10.jpg" alt="graf" />
+      </div>
 
-            
-        {{/each}}
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_11.jpg" alt="graf" />
+      </div>
+
+      <div class="col-xs-12 col-md-3">
+      <img class="album_cover" src="/images/img_12.jpg" alt="graf" />
+      </div>
+
     </div>
-    </script>
-    
-
-    
-
-  </div> <!-- Main Container Ends -->
-
-  <!-- javascript code to fill the template -->
-  <script type="text/javascript">
-
-    // grab our template code from the DOM
-    var source   = $("#image-template").html();
-
-    // compile the template so we can use it
-    var template = Handlebars.compile(source);
-
-    // create some data
-    //https://stackoverflow.com/questions/22696886/how-to-iterate-over-array-of-objects-in-handlebars/22697178
-    var data = [{
-      src: "/images/img_8.jpg",
-      title:"Album 1",
-      author:"A Garden view"
-    },
-    {
-      src: "/images/img_9.jpg",
-      title:"Album 2",
-      author:"A Sky view"
-    },
-    {
-      src: "/images/img_10.jpg",
-      title:"Album 3",
-      author:"A Love view"
-    }];
-
-    // generate HTML from the data
-    var html = template({
-        apidata: data
-    });
-
-    // add the HTML to the content div
-    $('#content').html(html);
-    </script>
 
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
   </body>
 </html>

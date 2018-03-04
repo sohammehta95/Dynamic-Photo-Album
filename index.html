@@ -63,6 +63,7 @@
      because we will fill it later from the template -->
     
       <div id="content"  class="container-fluid"  role="main"></div>
+      <div id="content2"  class="container-fluid"  role="main"></div>
 
 
     <script id="detail-template" type="text/x-handlebars-template">
@@ -77,10 +78,27 @@
           <h3 class="author">
             {{author}}
           </h3>
+          <button id="modalbtn" type="button" class="btn btn-warning">See Photo</button>
         </div>
       </div>
     </script>
       
+
+<script id="modal-template" type="text/x-handlebars-template">
+      <div id="imageModal" class="modal fade" role="dialog">
+        <div class="modal-dialog"  style="width:800">
+
+          <div class="modal-content">
+            
+            <div class="modal-body">
+              <img  style="width:100%" src="{{src}}"/>
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+    </script>
 
 
 
@@ -89,11 +107,19 @@
     <!-- javascript code to fill the template -->
   <script type="text/javascript">
 
+    // This time we have two templates
+    // we compile both of them and store the 
+    // results in separate variables
+
     // grab our template code from the DOM
     var source   = $("#detail-template").html();
 
     // compile the template so we can use it
     var detail_template = Handlebars.compile(source);
+
+    source   = $("#modal-template").html();
+
+    var modal_template = Handlebars.compile(source);
 
     // create some data
     //https://stackoverflow.com/questions/22696886/how-to-iterate-over-array-of-objects-in-handlebars/22697178
@@ -116,6 +142,15 @@
     //Initial First Data shown
     var html    = detail_template(data[0]);
     $('#content').html(html);
+    $("#modalbtn").click(function () {
+
+      var html2    = modal_template(data[0]);
+      $('#content2').html(html2);
+
+      $("#imageModal").modal('show');
+
+    });
+
 
     //Button Click Functions to Show Content Below
 
@@ -129,6 +164,22 @@
       //Make Button Active
       $('li').removeClass();
       $(this).addClass('active');
+
+      //Show Modal on Click of Image
+
+      $("#modalbtn").click(function () {
+
+      var html2    = modal_template(data[0]);
+      $('#content2').html(html2);
+
+      /* we can only show the modal once the 
+         template has been instantiated 
+         because it does not exist before */
+      $("#imageModal").modal('show');
+
+    });
+
+      
     });
 
     
@@ -141,6 +192,18 @@
 
       $('li').removeClass();
       $(this).addClass('active');
+
+
+      $("#modalbtn").click(function () {
+
+      var html2    = modal_template(data[1]);
+      $('#content2').html(html2);
+
+      $("#imageModal").modal('show');
+
+      });
+
+
     });
 
     $("#image3btn").click(function () {
@@ -152,8 +215,19 @@
 
       $('li').removeClass();
       $(this).addClass('active');
+
+      $("#modalbtn").click(function () {
+
+      var html2    = modal_template(data[2]);
+      $('#content2').html(html2);
+
+      $("#imageModal").modal('show');
+
+      });
+
     });
 
+    
 
     </script>
 
