@@ -44,6 +44,11 @@
     <div class="container">
       <h1>Albums</h1>
 
+      <div class="navbar-form navbar-right">
+      <input id="searchbox" type="text" class="form-control" placeholder="Search...">
+    </div>
+
+
       <!-- start breadcrumb -->
       <ol class="breadcrumb">
         <li><a href="albums.html">Albums</a></li>
@@ -54,36 +59,51 @@
 
        <!-- This will be filled by the Javascript below
      because we will fill it later from the template -->
-    <div class="row">
+
+
           <div id="content"></div>
-    </div> <!-- / row -->
+          <div id="modal-container" ></div>
 
 
     <script id="image-template" type="text/x-handlebars-template">
-    <div>
-        {{#each apidata}}
+    <div class="row">
+        {{#each images}}
             
 
                 <div class="col-xs-12 col-md-3">
-                    <div class="thumbnail">
-                      <a href="{{page}}">
-                        <img class="crop-img" src="{{src}}" alt=""/>
+                    <div class="thumbnail" data-id="{{@index}}">
+                    
+                        <img class="crop-img" style="width:300px; height:300px;" src="{{src}}" alt=""/>
 
                         <div class="caption">
-                            <h3> {{title}} </h3>
-                            <p> {{author}} </p>
+                            <div class="fonty"> {{title}} </div>
+                            <p class="fonty"> {{author}} </p>
                         </div>
-                      </a>
+                      
                     </div>
                 </div>
 
             
         {{/each}}
-    </div>
+    </div> <!-- / row -->
     </script>
     
 
-    
+    <script id="modal-template" type="text/x-handlebars-template">
+      <div id="imageModal" class="modal fade" role="dialog">
+        <div class="modal-dialog"  style="width:800">
+
+          <div class="modal-content">
+
+            <div class="modal-body">
+              <img  style="width:100%" src="{{src}}"/>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </script>
         
 
     
@@ -99,38 +119,137 @@
     // compile the template so we can use it
     var template = Handlebars.compile(source);
 
+    source   = $("#modal-template").html();
+    var modal_template = Handlebars.compile(source);
+
     // create some data
     //https://stackoverflow.com/questions/22696886/how-to-iterate-over-array-of-objects-in-handlebars/22697178
-    var data = [{
-      src: "/images/img_8.jpg",
-      title:"Album 1",
-      author:"A Garden view"
-    },
-    {
-      src: "/images/img_9.jpg",
-      title:"Album 2",
-      author:"A Sky view"
-    },
-    {
-      src: "/images/img_10.jpg",
-      title:"Album 3",
-      author:"A Love view"
-    },
-    {
-      src: "/images/img_1.jpg",
-      page:"/photo1.html",
-      title:"Album 4",
-      author:"Graphiti Art"
-    }];
+    var data = {images:[
+         {
+       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Shopping_Center_Magna_Plaza_Amsterdam_2014.jpg/2560px-Shopping_Center_Magna_Plaza_Amsterdam_2014.jpg", 
+           title: "Shopping Center Magna Plaza Amsterdam 2014",
+           author: "Tuxyso", 
+           },
+         {
+       src: "https://upload.wikimedia.org/wikipedia/commons/archive/9/97/20101017074210%21The_Earth_seen_from_Apollo_17.jpg", 
+           title:"The Earth seen from Apollo 17",
+           author:"Ed g2s"
+           },
+         {
+       src:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Barnard_33.jpg/300px-Barnard_33.jpg",
+           title: "horse nebula",
+           author: "John Smith", 
+           },
+         {
+           src:"https://upload.wikimedia.org/wikipedia/commons/5/53/War_Office_Second_World_War_Official_Collection_H28513.jpg",
+           title:"wwii woman worker",
+           author:"Another author", 
+        },
+         {
+       src:"http://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Lijiang_Yunnan_China-Naxi-people-carrying-baskets-01.jpg/300px-Lijiang_Yunnan_China-Naxi-people-carrying-baskets-01.jpg",
+           title:"Lijiang Yunnan China Naxi people carrying baskets-",
+           author:"Wikimedia Commons", 
+           }, 
+         {
+       src:"http://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Stift_G%C3%B6ttweig_Gobelinzimmer_01.JPG/300px-Stift_G%C3%B6ttweig_Gobelinzimmer_01.JPG",
+           title:"Marco's house",
+           author:"Wikimedia Commons", 
+           }, 
+         
+         ]};
 
     // generate HTML from the data
-    var html = template({
-        apidata: data
-    });
+    var html = template(data);
 
     // add the HTML to the content div
     $('#content').html(html);
+
+
+
+    //Modal
+    function displayModal(event){
+        // get the index (position in the array)
+        // of the photo we clicked on
+        // "this" is the element that was clicked on
+        // data("id") gets the attribute data-id
+        // (which we set to the index of the photo in
+        // the array - @index)
+        var imageNumber = $(this).data("id");
+
+        // get the image out of the array using the image
+        // number and render it using the modal template
+        var html    = modal_template(data.images[imageNumber]);
+        // put the modal template in the DOM
+        $('#modal-container').html(html);
+
+        // show the modal
+        $("#imageModal").modal('show');
+    }
+
+    // display the modal when you click on a thumbnail
+    $('.thumbnail').click(displayModal);
+
+
+
+
+    ////////////////Searchbox///////////////////////
+    $('#searchbox').keypress(function (e) {
+
+      // check if the key that was pressed
+      // is the return key (it has id 13)
+      // and only do the search if it is
+      if (e.which == 13) {
+
+        // get the search text which is the 
+        // contents of the search box
+        var search_text = $('#searchbox').val();
+
+        // print the search box 
+        // (this is an example of using
+        // console.log for debugging)
+        console.log(search_text)
+
+        // create a new array of data with only
+        // the data that contains the search string
+        var filteredData = {
+
+          // use the filter function which returns
+          // a new array that contains only the 
+          // elements of data.images for which 
+          // the function returns true
+          images: data.images.filter(function(d){
+            
+            // return true if the title contains 
+            // the search text
+            if (d.title.search(search_text) > -1){
+              return true;
+            }
+            
+            // return true if the author contains 
+            // the search text
+            if (d.author.search(search_text) > -1){
+              return true;
+            }
+
+            // if we reach here it means we haven't 
+            // found a match so return false
+            return false;
+          })
+        };
+        
+        // pass the newly filtered data into
+        // the template to generate new html
+        var html    = template(filteredData);
+        $('#content').html(html);
+
+        // display the modal when you click on a thumbnail
+        $('.thumbnail').click(displayModal);
+      }
+    });
+
     </script>
+
+
 
 
 

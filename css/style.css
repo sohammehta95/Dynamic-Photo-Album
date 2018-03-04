@@ -9,3 +9,42 @@ img.album_cover{
    height:100%;
    padding:1px;
 }
+
+.fonty
+{ 
+  width:100%;
+  height:100%;
+  font-family:Verdana, Geneva, sans-serif;
+  font-size:15px;
+  font-weight:normal;
+}
+
+
+.crop-img{
+  max-height:150px;
+  max-width:100%;
+}
+
+.large-img{
+  max-width:100%;
+}
+
+.carousel-img{
+    margin: auto;
+    padding: 10px;
+    max-height:300px;
+    max-width:100%;
+
+}
+
+
+/*
+.thumbnail,.nav, .large-img, .crop-img{
+  border-radius: 25px;
+  padding-top:5px;
+}
+
+.thumbnail,.nav {
+  box-shadow: 10px 10px 5px #888888;
+}
+*/

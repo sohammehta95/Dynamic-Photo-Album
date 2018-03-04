@@ -1,40 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-   <title></title>
+   <title> Gallery</title>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/handlebars-v3.0.3.js"></script>
-
     <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/Albums.js"> </script>
+    <script src="js/gallery.js"> </script>
+
+    <script src="https://www.w3schools.com/lib/w3data.js"></script>
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-
-        <!-- start collapsed navbar-->
-        <div class="navbar-header">
-          <button 
-          type="button" 
-          class="navbar-toggle collapsed" 
-          data-toggle="collapse" 
-          data-target="#main_navbar" 
-          aria-expanded="false"> # </button>
-        </div><!-- / collapsed navbar-->
-
-      <!-- start un-collapsed navbar-->
-      <div class="collapse navbar-collapse" id="main_navbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="index.html">Home</a></li>
-          <li><a href="albums.html">Albums</a></li>
-          <li><a href="photos.html">Photos</a></li>
-        </ul>
-      </div><!-- / un-collapsed navbar-->
-
-      </div> <!-- /container fliud -->
-    </nav>
+    <div w3-include-html="navbar.html"></div>
 
   </head>
 
@@ -43,18 +23,18 @@
     
 
     <div class="container">
-      <h1>Home</h1>
+      <h1>Dynamic Gallery</h1>
 
       <!-- this is a simple nav bar for selecting between images -->
     <ul class="nav nav-tabs">
-          <li class="active" role=""  id="image1btn">
-            <a href="#">Image 1</a>
+          <li class="active" role=""  id="albums-tab">
+            <a href="#">Albums</a>
           </li>
-          <li role="" id="image2btn">
-            <a href="#">Image 2</a>
+          <li role="" id="photos-tab">
+            <a href="#">Photos</a>
           </li>
-          <li role="" id="image3btn">
-            <a href="#">Image 3</a>
+          <li role="" id="slideshow-tab">
+            <a href="#">Slideshow</a>
           </li>
         </ul>
     <br/><br/>
@@ -63,173 +43,121 @@
      because we will fill it later from the template -->
     
       <div id="content"  class="container-fluid"  role="main"></div>
-      <div id="content2"  class="container-fluid"  role="main"></div>
 
 
-    <script id="detail-template" type="text/x-handlebars-template">
-    <div class="row-fluid">
+       <script id="albums-template" type="text/x-handlebars-template">
+        <div class="row">
 
-        <div class="col-sm-5">
-          <img  style="width:100%" src="{{src}}"/>
-        </div>
+          {{#each albums}}
+          <div class="col-xs-12 col-md-3"> 
+              <div class="album-thumbnail"  data-id="{{@index}}">
+                <img class="crop-img" src="{{thumbnail}}" alt=""/> 
+                  
+                <div class="caption">
+                    <h4> {{name}} </h4>
+                    <p>{{photos.length}} photos</p>
+                </div>
+               </div>
+          </div> <!-- / col -->
 
-        <div class="col-sm-7">
-          <h1>{{title}}</h1>
-          <h3 class="author">
-            {{author}}
-          </h3>
-          <button id="modalbtn" type="button" class="btn btn-warning">See Photo</button>
-        </div>
-      </div>
-    </script>
+          {{/each}}
+
+        </div> <!-- / row -->
+      </script>
       
 
-<script id="modal-template" type="text/x-handlebars-template">
-      <div id="imageModal" class="modal fade" role="dialog">
-        <div class="modal-dialog"  style="width:800">
-
-          <div class="modal-content">
-            
-            <div class="modal-body">
-              <img  style="width:100%" src="{{src}}"/>
-            </div>
-            
-          </div>
-
-        </div>
+      <script id="photos-template" type="text/x-handlebars-template">
+  <div class="row">
+  
+    {{#each photos}}
+    <div class="col-xs-12 col-md-3"> 
+     <div class="photo-thumbnail"  data-id="{{@index}}">
+        <img class="crop-img" src="{{src}}" alt=""/> 
+          
+         <div class="caption">
+            <h3>{{title}}</h3>
+            <p>{{description}}</p>
+         </div>
       </div>
-    </script>
+       
+    </div> <!-- / col -->
+    {{/each}}
 
+  </div> <!-- / row -->
+</script>
+
+
+
+      <script id="photo-template" type="text/x-handlebars-template">
+        <div class="row">
+          <div class="col-xs-12 col-md-12"> 
+              <img class="large-img" src="{{src}}" alt=""/> 
+                
+              <div class="caption">
+                  <h3>{{title}}</h3>
+                  <p>{{description}}</p>
+              </div>
+            </div> <!-- / col -->
+
+        </div> <!-- / row -->
+      </script>
+
+
+
+<!-- this is the template for the slideshow view of a single album -->
+      <script id="slideshow-template" type="text/x-handlebars-template">
+          <div class="row">
+            <div class="col-md-6">
+
+              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+
+          
+               <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+
+                  {{#each photos}}
+                    <div class="item {{#if @first}}active{{/if}}">
+                     <img class="carousel-img" src="{{src}}" alt=""/> 
+                    <div class="carousel-caption">
+                      Image caption
+                    </div>
+                  </div> <!-- / carousel item -->
+                  {{/each}}
+
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+
+            </div> <!-- / carousel --> 
+          </div> <!-- / col -->
+        </div> <!-- / row -->
+      </script>
 
 
     </div> <!-- Main Container Ends -->
 
-    <!-- javascript code to fill the template -->
-  <script type="text/javascript">
 
-    // This time we have two templates
-    // we compile both of them and store the 
-    // results in separate variables
-
-    // grab our template code from the DOM
-    var source   = $("#detail-template").html();
-
-    // compile the template so we can use it
-    var detail_template = Handlebars.compile(source);
-
-    source   = $("#modal-template").html();
-
-    var modal_template = Handlebars.compile(source);
-
-    // create some data
-    //https://stackoverflow.com/questions/22696886/how-to-iterate-over-array-of-objects-in-handlebars/22697178
-    var data = [{
-      src: "/images/img_8.jpg",
-      title:"Album 1",
-      author:"A Garden view"
-    },
-    {
-      src: "/images/img_9.jpg",
-      title:"Album 2",
-      author:"A Sky view"
-    },
-    {
-      src: "/images/img_10.jpg",
-      title:"Album 3",
-      author:"A Love view"
-    }];
-
-    //Initial First Data shown
-    var html    = detail_template(data[0]);
-    $('#content').html(html);
-    $("#modalbtn").click(function () {
-
-      var html2    = modal_template(data[0]);
-      $('#content2').html(html2);
-
-      $("#imageModal").modal('show');
-
-    });
-
-
-    //Button Click Functions to Show Content Below
-
-    $("#image1btn").click(function () {
-      // generate HTML from the data
-      var html    = detail_template(data[0]);
-
-      // add the HTML to the content div
-      $('#content').html(html);
-
-      //Make Button Active
-      $('li').removeClass();
-      $(this).addClass('active');
-
-      //Show Modal on Click of Image
-
-      $("#modalbtn").click(function () {
-
-      var html2    = modal_template(data[0]);
-      $('#content2').html(html2);
-
-      /* we can only show the modal once the 
-         template has been instantiated 
-         because it does not exist before */
-      $("#imageModal").modal('show');
-
-    });
-
-      
-    });
-
-    
-    $("#image2btn").click(function () {
-      // generate HTML from the data
-      var html    = detail_template(data[1]);
-
-      // add the HTML to the content div
-      $('#content').html(html);
-
-      $('li').removeClass();
-      $(this).addClass('active');
-
-
-      $("#modalbtn").click(function () {
-
-      var html2    = modal_template(data[1]);
-      $('#content2').html(html2);
-
-      $("#imageModal").modal('show');
-
-      });
-
-
-    });
-
-    $("#image3btn").click(function () {
-      // generate HTML from the data
-      var html    = detail_template(data[2]);
-
-      // add the HTML to the content div
-      $('#content').html(html);
-
-      $('li').removeClass();
-      $(this).addClass('active');
-
-      $("#modalbtn").click(function () {
-
-      var html2    = modal_template(data[2]);
-      $('#content2').html(html2);
-
-      $("#imageModal").modal('show');
-
-      });
-
-    });
-
-    
-
+    <!-- Javascript Code for Include -->
+    <script type="text/javascript">
+    w3IncludeHTML();
     </script>
+
+    
 
 
   </body>
