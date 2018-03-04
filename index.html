@@ -11,10 +11,6 @@
     <link href="css/style.css" rel="stylesheet">
 
 
-  </head>
-
-  <body>
-
     <nav class="navbar navbar-default">
       <div class="container-fluid">
 
@@ -40,42 +36,49 @@
       </div> <!-- /container fliud -->
     </nav>
 
+  </head>
+
+  <body>
+
+    
+
     <div class="container">
       <h1>Home</h1>
 
-      <!-- start breadcrumb -->
-      <ol class="breadcrumb">
-        <li><a href="index.html">Home</a></li>
-      </ol>
-      <!-- / breadcrumb -->
+      <!-- this is a simple nav bar for selecting between images -->
+    <ul class="nav nav-tabs">
+          <li class="active" role=""  id="image1btn">
+            <a href="#">Image 1</a>
+          </li>
+          <li role="" id="image2btn">
+            <a href="#">Image 2</a>
+          </li>
+          <li role="" id="image3btn">
+            <a href="#">Image 3</a>
+          </li>
+        </ul>
+    <br/><br/>
 
       <!-- This will be filled by the Javascript below
      because we will fill it later from the template -->
     
-          <div id="content"></div>
+      <div id="content"  class="container-fluid"  role="main"></div>
 
 
-    <script id="image-template" type="text/x-handlebars-template">
-    <div>
-        {{#each apidata}}
-            
+    <script id="detail-template" type="text/x-handlebars-template">
+    <div class="row-fluid">
 
-                <div class="col-xs-12 col-md-3">
-                    <div class="thumbnail">
-                      <a href="{{src}}.html">
-                        <img class="crop-img" src="{{src}}" alt=""/>
+        <div class="col-sm-5">
+          <img  style="width:100%" src="{{src}}"/>
+        </div>
 
-                        <div class="caption">
-                            <h3> {{title}} </h3>
-                            <p> {{author}} </p>
-                        </div>
-                      </a>
-                    </div>
-                </div>
-
-            
-        {{/each}}
-    </div>
+        <div class="col-sm-7">
+          <h1>{{title}}</h1>
+          <h3 class="author">
+            {{author}}
+          </h3>
+        </div>
+      </div>
     </script>
       
 
@@ -87,10 +90,10 @@
   <script type="text/javascript">
 
     // grab our template code from the DOM
-    var source   = $("#image-template").html();
+    var source   = $("#detail-template").html();
 
     // compile the template so we can use it
-    var template = Handlebars.compile(source);
+    var detail_template = Handlebars.compile(source);
 
     // create some data
     //https://stackoverflow.com/questions/22696886/how-to-iterate-over-array-of-objects-in-handlebars/22697178
@@ -110,13 +113,48 @@
       author:"A Love view"
     }];
 
-    // generate HTML from the data
-    var html = template({
-        apidata: data
+    //Initial First Data shown
+    var html    = detail_template(data[0]);
+    $('#content').html(html);
+
+    //Button Click Functions to Show Content Below
+
+    $("#image1btn").click(function () {
+      // generate HTML from the data
+      var html    = detail_template(data[0]);
+
+      // add the HTML to the content div
+      $('#content').html(html);
+
+      //Make Button Active
+      $('li').removeClass();
+      $(this).addClass('active');
     });
 
-    // add the HTML to the content div
-    $('#content').html(html);
+    
+    $("#image2btn").click(function () {
+      // generate HTML from the data
+      var html    = detail_template(data[1]);
+
+      // add the HTML to the content div
+      $('#content').html(html);
+
+      $('li').removeClass();
+      $(this).addClass('active');
+    });
+
+    $("#image3btn").click(function () {
+      // generate HTML from the data
+      var html    = detail_template(data[2]);
+
+      // add the HTML to the content div
+      $('#content').html(html);
+
+      $('li').removeClass();
+      $(this).addClass('active');
+    });
+
+
     </script>
 
 
