@@ -1,0 +1,42 @@
+Make all web content on http://plnkr.co/edit/CmyT5C?p=preview
+——------------------------------Browser Sync--------------------
+
+//Go inside the folder where you want to start browder sync
+
+browser-sync --server --directory --files "**/*"
+
+//To quit
+
+Control lsC
+
+
+—---------------------------------Github------------------------------
+
+//To check the current directory
+pwd
+
+//to see files in that directory
+ls
+
+//To navigate to another folder
+cd
+
+//Go to the Desktop first by cd and then
+//To clone 
+git clone https://github.com/sohammehta95/angular-js-dynamic-webpage.git
+
+
+//To check status
+
+git status
+
+//To add file
+git add .
+///////. means everything //////
+
+
+//To commit Locally
+git commit -m "First Web File"
+
+//To push to Github
+git push
