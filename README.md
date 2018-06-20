@@ -2,7 +2,9 @@
 A Dynamic Photo Album using Javascript and Bootstrap
 
 Check the website to see the live webpage
+<a href="https://sohammehta95.github.io/Dynamic-Photo-Album/" target="_blank">
 https://sohammehta95.github.io/Dynamic-Photo-Album/
+</a>
 
 The webpage is made completely responsive by using Bootstrap
 1)  The navbar will collapse into a button
